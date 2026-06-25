@@ -1,28 +1,28 @@
-# GoHighLevel CLI
+# Salesflow Workflows CLI
 
-A command-line interface for GoHighLevel that lets you (or Claude Code) drive your CRM from the terminal — contacts, opportunities, calendars, conversations, workflows, emails, payments, forms, social media, locations, and documents.
+A command-line interface for driving **GoHighLevel** workflows and CRM operations from the terminal — contacts, opportunities, calendars, conversations, workflows, emails, payments, forms, social media, locations, and documents.
 
-Built by [Lead Gen Jay](https://leadgenjay.com).
+Built by [Salesflow One](https://salesflow.one) for the whitelabel app at [app.salesflow.one](https://app.salesflow.one).
 
 ---
 
 ## What you get
 
 - **11 command groups** covering the full GHL surface (contacts, opportunities, calendars, workflows, conversations, emails, payments, forms, social, locations, documents).
-- **A REPL** — type `ghl` with no args and you get an interactive shell with autocomplete.
-- **Workflow builders** — Python scripts that take a markdown file and turn it into a live GHL workflow (see `builders/`).
-- **A Chrome extension** that grabs the Firebase token you need to use the "internal" GHL API (the public API can't create workflows; the internal one can).
-- **A Claude Code skill** at `cli_anything/gohighlevel/skills/SKILL.md` so Claude can use the CLI on your behalf.
+- **A REPL** — type `sfw` with no args and you get an interactive shell with autocomplete.
+- **Workflow builders** — Python utilities in `cli_anything/salesflow_workflows/utils/workflow_builder.py` for creating workflows via the internal API.
+- **A Chrome extension** — **Salesflow Workflows Token Grabber** — that grabs the Firebase token you need for workflow creation (the public API is read-only for workflows).
+- **A Cursor agent skill** at `cli_anything/salesflow_workflows/skills/SKILL.md` so AI agents can use the CLI on your behalf.
 
 ---
 
-## Install (60 seconds)
+## Install
 
-Requirements: **Python 3.10+** and a GoHighLevel sub-account.
+Requirements: **Python 3.10+** and a GoHighLevel sub-account (Salesflow One uses [app.salesflow.one](https://app.salesflow.one)).
 
 ```bash
-git clone <this repo> gohighlevel-cli
-cd gohighlevel-cli
+git clone <this repo> salesflow-workflows-cli
+cd salesflow-workflows-cli
 ./install.sh
 ```
 
@@ -38,10 +38,10 @@ GHL_LOCATION_ID=YOUR_LOCATION_ID    # the long ID in your GHL URL
 Smoke test:
 
 ```bash
-./ghl contacts list --limit 5
+./sfw contacts list --limit 5
 ```
 
-You should see 5 contacts (or an empty list, depending on the account). Done.
+You should see contacts (or an empty list). The legacy `ghl` command is also available as an alias.
 
 ---
 
@@ -49,22 +49,22 @@ You should see 5 contacts (or an empty list, depending on the account). Done.
 
 ```bash
 # Contacts
-./ghl contacts search --query "jay@"
-./ghl contacts create --first-name Jay --last-name Test --email jay@test.com
-./ghl contacts tags add --contact-id <id> --tag consulti_trial
+./sfw contacts search --query "jane@"
+./sfw contacts create --first-name Jane --last-name Doe --email jane@example.com
+./sfw contacts tags add --contact-id <id> --tag trial
 
 # Workflows
-./ghl --json workflows list
-./ghl workflows enroll --contact-id <id> --workflow-id <id>
+./sfw --json workflows list
+./sfw workflows enroll --contact-id <id> --workflow-id <id>
 
 # Opportunities
-./ghl opportunities list --pipeline-id <id>
+./sfw opportunities list --pipeline-id <id>
 
 # Conversations
-./ghl conversations list --contact-id <id>
+./sfw conversations list --contact-id <id>
 
 # REPL (no args = interactive shell with autocomplete)
-./ghl
+./sfw
 ```
 
 `--json` works on most read commands and pipes cleanly into `jq`.
@@ -79,77 +79,56 @@ The public GHL API is read-only for workflows. To **create or update** workflows
 
 1. In Chrome, go to `chrome://extensions/` → enable Developer Mode.
 2. Click **Load unpacked** → pick the `chrome-extension/` folder in this repo.
-3. Open any `app.gohighlevel.com` page while logged in.
-4. Click the extension icon → **Grab Refresh Token** → **Copy to Clipboard**.
+3. Open [https://app.salesflow.one](https://app.salesflow.one) while logged in.
+4. Click the **Salesflow Workflows Token Grabber** extension → **Grab Refresh Token** → **Copy to Clipboard**.
 5. Paste it into your `.env` as `GHL_FIREBASE_REFRESH_TOKEN=...`.
 
-### Step 2 — build a workflow
+The extension also works on `app.gohighlevel.com` and `*.leadconnectorhq.com` if needed.
 
-`builders/` has example builders that turn a markdown email-sequence doc into a live workflow:
+### Step 2 — build workflows
+
+Use the experimental workflow commands (requires `--experimental` flag) or write your own builders using `workflow_builder.py` as a reference.
 
 ```bash
-# Course Interest sequence (10 emails, 14 days)
-python builders/wf1-course-interest-builder.py
-
-# High Ticket Interest sequence (5 emails + 1 SMS)
-python builders/wf5-ht-interest-builder.py
-
-# Post-Call Sales (3 tag-triggered branch workflows)
-python builders/wf6-post-call-sales-builder.py
-
-# Consulti free-trial nurture (8 emails)
-python builders/consulti-nurture-builder.py
-
-# Post-purchase nurture (6 emails)
-python builders/post-purchase-nurture-builder.py
+./sfw --experimental workflows create --help
 ```
-
-Each builder supports `--update` to re-deploy without creating a duplicate workflow.
 
 ---
 
 ## Project layout
 
 ```
-gohighlevel-cli/
-├── ghl                         # the executable wrapper
+salesflow-workflows-cli/
+├── sfw                         # primary CLI wrapper
+├── ghl                         # backward-compatible alias → sfw
 ├── setup.py                    # package definition
 ├── install.sh                  # one-shot installer
 ├── .env.example                # template for your secrets
 │
-├── cli_anything/               # the actual Python package
-│   ├── gohighlevel/            # GHL commands (the main thing)
-│   │   ├── gohighlevel_cli.py  # ~1,260 lines of CLI
-│   │   ├── utils/              # API clients (public + internal + workflow builder)
-│   │   └── skills/SKILL.md     # Claude Code skill manifest
-│   ├── nextcloud/              # bonus: Nextcloud CLI
-│   └── blotato/                # bonus: Blotato CLI
+├── cli_anything/
+│   └── salesflow_workflows/    # Salesflow Workflows CLI package
+│       ├── salesflow_workflows_cli.py
+│       ├── utils/              # API clients (public + internal + workflow builder)
+│       └── skills/SKILL.md     # Cursor agent skill manifest
 │
-├── chrome-extension/           # Firebase token grabber
+├── chrome-extension/           # Salesflow Workflows Token Grabber
 │   ├── manifest.json
 │   ├── popup.html
 │   ├── popup.js
 │   └── icon48.png
 │
-└── builders/                   # example workflow builders
-    ├── wf1-course-interest-builder.py
-    ├── wf5-ht-interest-builder.py
-    ├── wf6-post-call-sales-builder.py
-    ├── consulti-nurture-builder.py
-    ├── post-purchase-nurture-builder.py
-    ├── email-sequences-doc-builder.py
-    └── _email_sequences_parser.py
+└── docs/                       # workflow documentation (add your own)
 ```
 
 ---
 
-## Using it with Claude Code
+## Using it with Cursor / Claude Code
 
-The repo includes a Claude Code skill so Claude can call the CLI on your behalf:
+The repo includes an agent skill so AI can call the CLI on your behalf:
 
-1. Copy `cli_anything/gohighlevel/skills/SKILL.md` into a Claude Code skills directory (e.g. `~/.claude/skills/gohighlevel-cli/SKILL.md`).
-2. Add `ghl` to your shell's PATH (or symlink the `ghl` wrapper somewhere on PATH).
-3. In any Claude Code session, say "use the gohighlevel-cli skill" and Claude will be able to run `ghl ...` for you.
+1. Copy `cli_anything/salesflow_workflows/skills/SKILL.md` into your agent skills directory (e.g. `~/.cursor/skills/salesflow-workflows-cli/SKILL.md`).
+2. Add `sfw` to your shell's PATH (or symlink the `sfw` wrapper somewhere on PATH).
+3. In any session, reference the **salesflow-workflows-cli** skill and the agent can run `sfw ...` for you.
 
 ---
 
@@ -160,9 +139,11 @@ The CLI talks to two APIs:
 | API | What it can do | How it authenticates |
 |-----|----------------|----------------------|
 | **Public** (`services.leadconnectorhq.com`) | Read everything, create contacts/opportunities/etc. **Workflows are GET-only here.** | `GHL_API_KEY` (Private Integration Token) |
-| **Internal** (`backend.leadconnectorhq.com`) | Everything the GHL UI can do — including **creating workflows**. Hidden behind a `--experimental` flag on commands that use it. | Firebase JWT, refreshed from `GHL_FIREBASE_REFRESH_TOKEN` |
+| **Internal** (`backend.leadconnectorhq.com`) | Everything the GHL UI can do — including **creating workflows**. Gated behind `--experimental`. | Firebase JWT, refreshed from `GHL_FIREBASE_REFRESH_TOKEN` |
 
 You only need the Firebase token if you want to **build** workflows. Everything else works with just the API key.
+
+If token refresh fails on [app.salesflow.one](https://app.salesflow.one), verify `GHL_FIREBASE_API_KEY` matches your whitelabel app's Firebase project (see `.env.example`).
 
 ---
 
@@ -170,10 +151,10 @@ You only need the Firebase token if you want to **build** workflows. Everything 
 
 - `.env` is gitignored. **Never** commit it.
 - The Firebase refresh token is sensitive (it's your full GHL session). Treat it like a password.
-- The bundled Chrome extension only reads from IndexedDB on `*.gohighlevel.com` and `*.leadconnectorhq.com` — no network calls.
+- The bundled Chrome extension only reads from IndexedDB on permitted GHL domains — no network calls.
 
 ---
 
 ## License
 
-Private / personal use.
+Private / internal use — Salesflow One.

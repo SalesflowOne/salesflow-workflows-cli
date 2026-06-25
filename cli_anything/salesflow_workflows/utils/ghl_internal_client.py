@@ -17,7 +17,14 @@ import urllib.request
 from typing import Any, Optional
 
 BASE_URL = "https://backend.leadconnectorhq.com"
-FIREBASE_API_KEY = "AIzaSyB_w3vXmsI7WeQtrIOkjR6xTRVN5uOieiE"
+# Default Firebase API key from the GHL web app. If token refresh fails on a
+# whitelabel domain (e.g. app.salesflow.one), verify this key matches the app
+# or set GHL_FIREBASE_API_KEY in your environment.
+_DEFAULT_FIREBASE_API_KEY = "AIzaSyB_w3vXmsI7WeQtrIOkjR6xTRVN5uOieiE"
+
+
+def _firebase_api_key() -> str:
+    return os.environ.get("GHL_FIREBASE_API_KEY", "").strip() or _DEFAULT_FIREBASE_API_KEY
 CTX = ssl.create_default_context()
 
 CHROME_UA = (
@@ -95,7 +102,7 @@ class TokenManager:
         try:
             body = f"grant_type=refresh_token&refresh_token={refresh_token}"
             req = urllib.request.Request(
-                f"https://securetoken.googleapis.com/v1/token?key={FIREBASE_API_KEY}",
+                f"https://securetoken.googleapis.com/v1/token?key={_firebase_api_key()}",
                 data=body.encode(),
                 headers={"Content-Type": "application/x-www-form-urlencoded"},
                 method="POST",

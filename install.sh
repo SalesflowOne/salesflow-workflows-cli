@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# One-shot installer for the GoHighLevel CLI.
+# One-shot installer for the Salesflow Workflows CLI.
 # Creates a local .venv, installs the package, and prints next steps.
 
 set -e
@@ -22,7 +22,7 @@ source .venv/bin/activate
 pip install --upgrade pip >/dev/null
 pip install -e . >/dev/null
 
-chmod +x ghl
+chmod +x sfw ghl
 
 if [ ! -f .env ]; then
   echo "→ creating .env from .env.example ..."
@@ -32,12 +32,12 @@ if [ ! -f .env ]; then
 fi
 
 echo
-echo "✓ installed."
+echo "✓ Salesflow Workflows CLI installed."
 echo
 echo "Next steps:"
 echo "  1. Edit .env  (GHL_API_KEY, GHL_LOCATION_ID at minimum)"
-echo "  2. Run:        ./ghl contacts list --limit 5"
+echo "  2. Run:        ./sfw contacts list --limit 5"
 echo "  3. Optional:   load chrome-extension/ as an unpacked extension"
-echo "                 in Chrome to grab your Firebase token for"
-echo "                 workflow-building commands."
+echo "                 in Chrome, open https://app.salesflow.one while logged in,"
+echo "                 and grab your Firebase token for workflow-building commands."
 echo

@@ -1,14 +1,14 @@
 from setuptools import setup, find_namespace_packages
 
 setup(
-    name="cli-anything",
-    version="1.1.0",
-    description="CLI interfaces for GoHighLevel, Nextcloud, and Blotato APIs",
-    author="Lead Gen Jay",
+    name="salesflow-workflows-cli",
+    version="2.0.0",
+    description="Salesflow Workflows CLI for GoHighLevel",
+    author="Salesflow One",
+    url="https://salesflow.one",
     packages=find_namespace_packages(include=["cli_anything.*"]),
     package_data={
-        "cli_anything.gohighlevel": ["skills/*.md"],
-        "cli_anything.nextcloud": ["skills/*.md"],
+        "cli_anything.salesflow_workflows": ["skills/*.md"],
     },
     install_requires=[
         "click>=8.0.0",
@@ -18,10 +18,8 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "cli-anything-gohighlevel=cli_anything.gohighlevel.gohighlevel_cli:main",
-            "ghl=cli_anything.gohighlevel.gohighlevel_cli:main",
-            "nc=cli_anything.nextcloud.nextcloud_cli:main",
-            "blotato=cli_anything.blotato.blotato_cli:main",
+            "sfw=cli_anything.salesflow_workflows.salesflow_workflows_cli:main",
+            "ghl=cli_anything.salesflow_workflows.salesflow_workflows_cli:main",
         ],
     },
     python_requires=">=3.10",

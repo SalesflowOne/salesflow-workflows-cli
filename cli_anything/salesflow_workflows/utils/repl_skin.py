@@ -47,6 +47,8 @@ _ACCENT_COLORS = {
     "obs_studio":  "\033[38;5;55m",    # purple
     "kdenlive":    "\033[38;5;69m",    # slate blue
     "shotcut":     "\033[38;5;35m",    # teal green
+    "salesflow-workflows": "\033[38;5;45m",  # Salesflow brand cyan
+    "salesflow_workflows": "\033[38;5;45m",
 }
 _DEFAULT_ACCENT = "\033[38;5;75m"      # default sky blue
 

@@ -13,7 +13,7 @@ import uuid
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Any, Optional
 
-from cli_anything.gohighlevel.utils.ghl_internal_client import InternalGHLClient
+from cli_anything.salesflow_workflows.utils.ghl_internal_client import InternalGHLClient
 
 # ── Verified Action Types (56 confirmed via save API 2026-03-22) ──────────
 
@@ -376,7 +376,7 @@ class CampaignBuilder:
             lines.append(f"\nGHL Links:")
             for key, wf_id in sorted(wf_ids.items()):
                 lines.append(
-                    f"  https://app.leadgenjay.com/location/{self.loc}/workflow/{wf_id}"
+                    f"  https://app.salesflow.one/location/{self.loc}/workflow/{wf_id}"
                 )
 
         return "\n".join(lines)

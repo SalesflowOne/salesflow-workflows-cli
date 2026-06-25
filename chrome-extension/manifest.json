@@ -1,13 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "GHL Token Grabber",
-  "version": "1.0",
-  "description": "Grab Firebase refresh token from GoHighLevel for CLI use",
+  "name": "Salesflow Workflows Token Grabber",
+  "version": "1.1",
+  "description": "Grab Firebase refresh token from Salesflow One (GoHighLevel) for CLI workflow building",
   "permissions": ["activeTab", "scripting", "clipboardWrite"],
   "host_permissions": [
+    "https://app.salesflow.one/*",
     "https://app.gohighlevel.com/*",
-    "https://*.leadconnectorhq.com/*",
-    "https://app.leadgenjay.com/*"
+    "https://*.leadconnectorhq.com/*"
   ],
   "action": {
     "default_popup": "popup.html",

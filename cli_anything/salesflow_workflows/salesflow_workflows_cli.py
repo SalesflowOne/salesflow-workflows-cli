@@ -1,4 +1,4 @@
-"""GoHighLevel CLI — Agent-usable command-line interface to the GHL API."""
+"""Salesflow Workflows CLI — Agent-usable command-line interface to GoHighLevel."""
 from __future__ import annotations
 
 import json
@@ -7,7 +7,7 @@ import sys
 import click
 import requests
 
-from cli_anything.gohighlevel.utils import ghl_client as api
+from cli_anything.salesflow_workflows.utils import ghl_client as api
 
 
 # ---------------------------------------------------------------------------
@@ -54,10 +54,10 @@ def _loc(ctx: click.Context) -> str:
 @click.option("--json", "use_json", is_flag=True, help="Output as JSON")
 @click.option("--location-id", envvar="GHL_LOCATION_ID", default=None, help="GHL Location/Sub-account ID")
 @click.option("--experimental", is_flag=True, help="Enable experimental commands (internal GHL API)")
-@click.version_option("2.0.0", prog_name="cli-anything-gohighlevel")
+@click.version_option("2.0.0", prog_name="salesflow-workflows")
 @click.pass_context
 def cli(ctx, use_json, location_id, experimental):
-    """GoHighLevel CLI — manage contacts, workflows, calendars, and more."""
+    """Salesflow Workflows CLI — drive GoHighLevel from the terminal."""
     ctx.ensure_object(dict)
     ctx.obj["json"] = use_json
     ctx.obj["location_id"] = location_id
@@ -75,8 +75,8 @@ def cli(ctx, use_json, location_id, experimental):
 def repl(ctx):
     """Interactive REPL mode."""
     try:
-        from cli_anything.gohighlevel.utils.repl_skin import ReplSkin
-        skin = ReplSkin("gohighlevel", version="1.0.0")
+        from cli_anything.salesflow_workflows.utils.repl_skin import ReplSkin
+        skin = ReplSkin("salesflow-workflows", version="2.0.0")
         skin.print_banner()
         pt_session = skin.create_prompt_session()
 
@@ -540,7 +540,7 @@ def _require_experimental(ctx: click.Context):
 
 def _get_internal_client(ctx: click.Context):
     """Get an InternalGHLClient (lazy import to avoid dep when not needed)."""
-    from cli_anything.gohighlevel.utils.ghl_internal_client import TokenManager, InternalGHLClient
+    from cli_anything.salesflow_workflows.utils.ghl_internal_client import TokenManager, InternalGHLClient
     token_mgr = TokenManager()
     return InternalGHLClient(token_mgr, _loc(ctx))
 
@@ -603,7 +603,7 @@ def workflows_create(ctx, name, folder, json_file):
     """
     _require_experimental(ctx)
     try:
-        from cli_anything.gohighlevel.utils.workflow_builder import CampaignBuilder
+        from cli_anything.salesflow_workflows.utils.workflow_builder import CampaignBuilder
 
         with open(json_file) as f:
             campaign = json.load(f)
@@ -648,7 +648,7 @@ def workflows_create_step(ctx, step_type, name, out_file, subject, body, from_na
     """
     _require_experimental(ctx)
     try:
-        from cli_anything.gohighlevel.utils import workflow_builder as wb
+        from cli_anything.salesflow_workflows.utils import workflow_builder as wb
 
         if step_type == "email":
             if not subject or not body:
@@ -721,7 +721,7 @@ def workflows_create_n8n(ctx, name, webhook_url, tag, folder):
     """
     _require_experimental(ctx)
     try:
-        from cli_anything.gohighlevel.utils import workflow_builder as wb
+        from cli_anything.salesflow_workflows.utils import workflow_builder as wb
 
         steps = [wb.webhook_step(f"n8n: {name}", webhook_url, "POST")]
         if tag:
@@ -736,7 +736,7 @@ def workflows_create_n8n(ctx, name, webhook_url, tag, folder):
             }
         }
 
-        from cli_anything.gohighlevel.utils.workflow_builder import CampaignBuilder
+        from cli_anything.salesflow_workflows.utils.workflow_builder import CampaignBuilder
         client = _get_internal_client(ctx)
         builder = CampaignBuilder(client)
         stats = builder.build(campaign, folder or f"n8n-{name}")

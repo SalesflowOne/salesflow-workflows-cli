@@ -18,8 +18,8 @@ grabBtn.addEventListener("click", async () => {
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-    if (!tab?.url?.match(/gohighlevel\.com|leadconnectorhq\.com|leadgenjay\.com/)) {
-      setStatus("Navigate to a GHL page first (app.gohighlevel.com)", "error");
+    if (!tab?.url?.match(/salesflow\.one|gohighlevel\.com|leadconnectorhq\.com/)) {
+      setStatus("Navigate to a GHL page first (app.salesflow.one)", "error");
       grabBtn.disabled = false;
       return;
     }
