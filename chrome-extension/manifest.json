@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Salesflow Workflows Token Grabber",
-  "version": "1.1",
+  "version": "1.1.0",
   "description": "Grab Firebase refresh token from Salesflow One (GoHighLevel) for CLI workflow building",
   "permissions": ["activeTab", "scripting", "clipboardWrite"],
   "host_permissions": [
@@ -12,10 +12,14 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "48": "icon48.png"
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
     }
   },
   "icons": {
-    "48": "icon48.png"
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
   }
 }

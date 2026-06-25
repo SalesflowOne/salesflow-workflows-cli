@@ -85,6 +85,18 @@ The public GHL API is read-only for workflows. To **create or update** workflows
 
 The extension also works on `app.gohighlevel.com` and `*.leadconnectorhq.com` if needed.
 
+### Chrome Web Store (team distribution)
+
+To publish for one-click installs (instead of Load unpacked):
+
+1. Host `chrome-extension/privacy-policy.html` at a public URL (e.g. `https://salesflow.one/chrome-extension/privacy-policy.html`).
+2. Build the upload zip: `./chrome-extension/build.sh` → `dist/salesflow-workflows-token-grabber.zip`
+3. Open [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole) (one-time $5 registration).
+4. **New item** → upload the zip → copy listing text from `chrome-extension/store-listing.txt`.
+5. Add `chrome-extension/store-screenshot.png` as a store screenshot → submit for review.
+
+Use **Unlisted** visibility to share an install link with your team without public search listing.
+
 ### Step 2 — build workflows
 
 Use the experimental workflow commands (requires `--experimental` flag) or write your own builders using `workflow_builder.py` as a reference.

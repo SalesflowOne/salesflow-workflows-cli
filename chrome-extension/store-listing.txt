@@ -1,0 +1,63 @@
+Chrome Web Store listing — copy/paste into Developer Dashboard
+================================================================
+
+ITEM NAME
+Salesflow Workflows Token Grabber
+
+SUMMARY (132 chars max)
+Grab your GoHighLevel Firebase token on app.salesflow.one for the Salesflow Workflows CLI. Local only — nothing sent to servers.
+
+DETAILED DESCRIPTION
+Salesflow Workflows Token Grabber helps Salesflow One customers configure the Salesflow Workflows CLI for GoHighLevel workflow building.
+
+The public GoHighLevel API cannot create workflows. The Salesflow Workflows CLI uses GHL's internal API, which requires a Firebase refresh token from your logged-in browser session.
+
+How it works:
+1. Log in to https://app.salesflow.one (or your GHL whitelabel domain).
+2. Click the extension icon.
+3. Click "Grab Refresh Token".
+4. Click "Copy to Clipboard".
+5. Paste into your CLI .env as GHL_FIREBASE_REFRESH_TOKEN.
+
+Privacy:
+- Reads Firebase auth data from browser IndexedDB only when you click the button.
+- Does not transmit data to any server.
+- Token is copied to your clipboard only when you choose to copy it.
+
+Built by Salesflow One: https://salesflow.one
+
+CATEGORY
+Productivity (or Developer Tools)
+
+LANGUAGE
+English
+
+VISIBILITY
+Unlisted (recommended for team/customer distribution via direct link)
+— or Public if you want store search discovery
+
+PRIVACY POLICY URL (required — host privacy-policy.html on your site first)
+https://salesflow.one/chrome-extension/privacy-policy.html
+
+SINGLE PURPOSE DESCRIPTION (if prompted)
+Read the user's Firebase refresh token from GoHighLevel web app local storage so they can paste it into the Salesflow Workflows CLI configuration file.
+
+PERMISSION JUSTIFICATIONS
+- activeTab: Check that the user is on an allowed GHL/Salesflow domain before reading storage.
+- scripting: Inject a one-shot script into the active tab to read firebaseLocalStorageDb IndexedDB.
+- clipboardWrite: Copy the refresh token when the user clicks Copy to Clipboard.
+- host_permissions (app.salesflow.one, app.gohighlevel.com, *.leadconnectorhq.com): Firebase session storage exists only on these GHL app domains.
+
+DATA USE (Privacy practices tab)
+- Authentication information: Yes — Firebase refresh token, read on user action only, not transmitted off-device.
+- Not used for unrelated purposes. Not sold.
+
+SCREENSHOTS
+Use chrome-extension/store-screenshot.png (included) or capture a fresh screenshot of the popup on app.salesflow.one.
+
+SUBMISSION STEPS
+1. Pay one-time $5 fee at https://chrome.google.com/webstore/devconsole (if new account).
+2. Host privacy-policy.html at the URL above.
+3. Run: ./chrome-extension/build.sh
+4. Developer Dashboard → New item → Upload dist/salesflow-workflows-token-grabber.zip
+5. Fill fields from this file → Submit for review (typically 1–3 business days).

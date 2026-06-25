@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy — Salesflow Workflows Token Grabber</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; color: #1a1a1a; }
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.1rem; margin-top: 1.5rem; }
+    a { color: #ED0D51; }
+  </style>
+</head>
+<body>
+  <h1>Privacy Policy</h1>
+  <p><strong>Salesflow Workflows Token Grabber</strong> — a Chrome extension by <a href="https://salesflow.one">Salesflow One</a>.</p>
+  <p>Last updated: June 25, 2026</p>
+
+  <h2>What this extension does</h2>
+  <p>
+    This extension reads your Firebase authentication refresh token from browser-local storage
+    (IndexedDB) on GoHighLevel whitelabel pages you have open, such as
+    <a href="https://app.salesflow.one">app.salesflow.one</a>. The token is used to configure the
+    <strong>Salesflow Workflows CLI</strong> so you can create and update workflows from the terminal.
+  </p>
+
+  <h2>Data collection</h2>
+  <ul>
+    <li><strong>Firebase refresh token</strong> — read only when you click “Grab Refresh Token” on an allowed GHL page.</li>
+    <li><strong>Active tab URL</strong> — checked locally to confirm you are on an allowed domain before reading storage.</li>
+  </ul>
+
+  <h2>What we do not do</h2>
+  <ul>
+    <li>We do <strong>not</strong> send your token or any data to Salesflow One or any third-party server.</li>
+    <li>We do <strong>not</strong> track browsing history beyond the active tab check described above.</li>
+    <li>We do <strong>not</strong> sell or share user data.</li>
+  </ul>
+
+  <h2>Where your data goes</h2>
+  <p>
+    The refresh token stays on your device. When you click “Copy to Clipboard”, it is copied to your
+    system clipboard so you can paste it into your local <code>.env</code> file for the CLI.
+    You control that file on your machine.
+  </p>
+
+  <h2>Permissions</h2>
+  <ul>
+    <li><strong>activeTab</strong> — access the current tab only when you open the extension popup.</li>
+    <li><strong>scripting</strong> — run a short script in the page context to read IndexedDB.</li>
+    <li><strong>clipboardWrite</strong> — copy the token when you click “Copy to Clipboard”.</li>
+    <li><strong>host_permissions</strong> — limited to GoHighLevel / Salesflow app domains where Firebase storage exists.</li>
+  </ul>
+
+  <h2>Contact</h2>
+  <p>Questions: <a href="https://salesflow.one">salesflow.one</a></p>
+</body>
+</html>
